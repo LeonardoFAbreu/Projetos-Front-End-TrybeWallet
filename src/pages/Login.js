@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { userInfos } from '../redux/actions/index';
+import { userInfos, fetchAPI } from '../redux/actions/index';
 
 class Login extends React.Component {
   constructor() {
@@ -39,13 +39,14 @@ class Login extends React.Component {
   };
 
   // ALTERA ROTA PARA 'CARTEIRA' DEPOIS QUE O BOTÃO 'ENTRAR' É CLICADO
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
 
     const { dispatch, history } = this.props;
     const { email } = this.state;
 
     dispatch(userInfos(email));
+    await dispatch(fetchAPI());
     history.push('/carteira');
   };
 
@@ -96,4 +97,9 @@ Login.propTypes = {
   ).isRequired,
   dispatch: PropTypes.func }.isRequired;
 
-export default connect()(Login);
+const mapStateToProps = (state) => ({
+  expenses: state.wallet.expenses,
+  currencies: state.wallet.currencies,
+});
+
+export default connect(mapStateToProps)(Login);

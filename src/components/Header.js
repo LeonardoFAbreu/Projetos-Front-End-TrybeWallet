@@ -67,6 +67,17 @@ class Header extends Component {
             )) }
           </select>
         </label>
+        {/* <label htmlFor="add-expense">
+            <button
+              type="submit"
+              name="Adicionar despesa"
+              value="Adicionar despesa"
+              onClickSubmit={}
+              // disabled={ }
+            >
+              Adicionar despesa
+            </button>
+          </label> */}
       </div>
     );
   }

@@ -21,12 +21,6 @@ class WalletForm extends Component {
               name="valor"
             />
           </label>
-          <select
-            data-testid="currency-input"
-            name="moeda"
-          >
-            {[]}
-          </select>
         </form>
       </div>
     );

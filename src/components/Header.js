@@ -4,80 +4,44 @@ import { connect } from 'react-redux';
 
 class Header extends Component {
   render() {
-    const { email, expenseValue, exchange, currencies } = this.props;
-    const method = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
-    const category = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
+    const { email, currency, expenses } = this.props;
+    const totalExpenses = expenses.reduce((acc, cur) => {
+      acc += +cur.value * +cur.exchangeRates[cur.currency].ask;
+      return acc;
+    }, 0);
 
     return (
       <div>
-        <label htmlFor="user_email">
+        <label
+          htmlFor="email-field"
+        >
           <p
             data-testid="email-field"
           >
+            {' '}
+            Olá,
             { email }
           </p>
         </label>
-        <label htmlFor="currencies">
-          Qual a moeda?
-          <select
-            data-testid="currency-input"
-          >
-            { currencies.map((currency) => (
-              <option key={ currency }>
-                {' '}
-                { currency }
-              </option>
-            ))}
-          </select>
-        </label>
         <label
-          htmlFor="total_expense"
+          htmlFor="total-field"
           data-testid="total-field"
         >
-          { Number(expenseValue).toFixed(2) }
+          Total de despesas
+          { totalExpenses.toFixed(2) }
         </label>
-        <label htmlFor="exchange_used">
+        <label
+          htmlFor="header-currency-field"
+        >
           <span
             data-testid="header-currency-field"
+            name="currency-field"
           >
-            { exchange }
+            BRL
+            { currency }
           </span>
         </label>
-        <label htmlFor="method">
-          Qual a forma de pagamento?
-          <select
-            data-testid="method-input"
-          >
-            { method.map((payment) => (
-              <option key={ payment }>
-                { payment }
-              </option>
-            )) }
-          </select>
-        </label>
-        <label htmlFor="category">
-          Qual o tipo de despesa?
-          <select
-            data-testid="tag-input"
-          >
-            { category.map((type) => (
-              <option key={ type }>
-                { type }
-              </option>
-            )) }
-          </select>
-        </label>
-        {/* <label htmlFor="add-expense">
-            <button
-              type="submit"
-              name="Adicionar despesa"
-              value="Adicionar despesa"
-              onClickSubmit={}
-              // disabled={ }
-            >
-              Adicionar despesa
-            </button>
-          </label> */}
+
       </div>
     );
   }
@@ -85,16 +49,14 @@ class Header extends Component {
 
 Header.propTypes = {
   email: PropTypes.string.isRequired,
-  currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
-  expenseValue: PropTypes.number.isRequired,
-  exchange: PropTypes.string.isRequired,
+  currency: PropTypes.string.isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.shape()).isRequired,
 };
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
-  currencies: state.wallet.currencies,
-  expenseValue: Number(state.wallet.expenseValue),
-  exchange: state.wallet.exchange,
+  currency: state.wallet.currency,
+  expenses: state.wallet.expenses,
 });
 
 export default connect(mapStateToProps)(Header);

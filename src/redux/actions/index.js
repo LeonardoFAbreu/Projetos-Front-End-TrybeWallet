@@ -5,6 +5,7 @@ export const EXCHANGE_TYPE = 'EXCHANGE_TYPE';
 export const REQUEST_API = 'REQUEST_API';
 export const RESPONSE_API = 'RESPONSE_API';
 export const GET_ERROR = 'GET_ERROR';
+export const ADD_EXPENSES = 'ADD_EXPENSES';
 
 export const userInfos = (email) => (
   {
@@ -22,6 +23,12 @@ export const exchangeType = (exchange) => (
   {
     type: EXCHANGE_TYPE,
     exchange,
+  });
+
+export const addExpenses = (expenses) => (
+  {
+    type: ADD_EXPENSES,
+    expenses,
   });
 
 export const requestAPI = () => (

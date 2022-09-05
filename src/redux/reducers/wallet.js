@@ -1,5 +1,5 @@
 import { TOTAL_EXPENSE, EXCHANGE_TYPE,
-  REQUEST_API, RESPONSE_API, GET_ERROR } from '../actions';
+  REQUEST_API, RESPONSE_API, GET_ERROR, ADD_EXPENSES } from '../actions';
 
 const INITIAL_STATE = {
   expenseValue: 0,
@@ -7,6 +7,8 @@ const INITIAL_STATE = {
   expenses: [],
   currencies: [],
   error: null,
+  // editor: false,
+  // idToEdit: 0,
 };
 
 const walletReduce = (state = INITIAL_STATE, action) => {
@@ -14,12 +16,17 @@ const walletReduce = (state = INITIAL_STATE, action) => {
   case TOTAL_EXPENSE:
     return {
       ...state,
-      expenseValue: action.walletReduce,
+      expenseValue: action.expenseValue,
     };
   case EXCHANGE_TYPE:
     return {
       ...state,
       exchange: action.exchange,
+    };
+  case ADD_EXPENSES:
+    return {
+      ...state,
+      expenses: [...state.expenses, action.expenses],
     };
   case REQUEST_API:
     return {

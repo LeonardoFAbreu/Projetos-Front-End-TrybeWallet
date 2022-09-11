@@ -6,8 +6,10 @@ import Table from '../components/Table';
 class Wallet extends React.Component {
   render() {
     return (
-      <div>
-        <p>TrybeWallet</p>
+      <div
+        data-testId="wallet-page"
+      >
+        <h2>TrybeWallet</h2>
         <Header />
         <WalletForm />
         <Table />

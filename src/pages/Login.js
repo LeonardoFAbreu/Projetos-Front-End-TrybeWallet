@@ -55,10 +55,14 @@ class Login extends React.Component {
 
     return (
       <form onSubmit={ this.handleSubmit }>
-        <div>
+        <div
+          data-testId="login-page"
+        >
+          <h1>TrybeWallet</h1>
           <label htmlFor="email">
             <p>Seu e-mail</p>
             <input
+              id="Email"
               data-testid="email-input"
               type="text"
               name="email"
@@ -69,6 +73,7 @@ class Login extends React.Component {
             <p>Sua senha</p>
             <input
               required
+              id="Passwd"
               data-testid="password-input"
               type="text"
               name="passwd"

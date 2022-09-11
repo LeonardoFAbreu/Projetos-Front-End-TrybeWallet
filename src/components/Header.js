@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 
 class Header extends Component {
   render() {
-    const { email, currency, expenses } = this.props;
+    const { email, expenses, currency } = this.props;
     const totalExpenses = expenses.reduce((acc, cur) => {
-      acc += +cur.value * +cur.exchangeRates[cur.currency].ask;
+      acc += cur.value * cur.exchangeRates[cur.currency].ask;
       return acc;
     }, 0);
 
@@ -23,25 +23,20 @@ class Header extends Component {
             { email }
           </p>
         </label>
+        Total de despesas:
         <label
           htmlFor="total-field"
           data-testid="total-field"
         >
-          Total de despesas
           { totalExpenses.toFixed(2) }
         </label>
-        <label
-          htmlFor="header-currency-field"
+        <span
+          data-testid="header-currency-field"
+          name="currency-field"
         >
-          <span
-            data-testid="header-currency-field"
-            name="currency-field"
-          >
-            BRL
-            { currency }
-          </span>
-        </label>
-
+          BRL
+          { currency }
+        </span>
       </div>
     );
   }

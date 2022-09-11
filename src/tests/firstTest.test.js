@@ -6,7 +6,46 @@ import Login from '../pages/Login';
 import Wallet from '../pages/Wallet';
 import App from '../App';
 
-describe('Testing login page', () => {
+describe('Testing de /App/ component', () => {
+  test('if the Login page is rendered when the path is /', () => {
+    renderWithRouter(<App />);
+    const loginPage = screen.getByTestId('login-page');
+    expect(loginPage).toBeInTheDocument();
+  });
+
+  test('if the Wallet page is rendered when the path is /carteira', () => {
+    renderWithRouter(<App />, { initialEntries: ['/carteira'] });
+    const walletPage = screen.getByTestId('wallet-page');
+    expect(walletPage).toBeInTheDocument();
+  });
+
+  test('If there is an /Entrar/ button', () => {
+    renderWithRouter(<App />);
+    const enterButton = screen.getByRole('button', { name: /entrar/i });
+    expect(enterButton).toBeInTheDocument();
+  });
+
+  test('/Entrar/ button validation', () => {
+    renderWithRouter(<App />);
+    const emailInput = screen.getByRole('textbox');
+    userEvent.type(emailInput, 'teste@email.com');
+
+    const passwordInput = screen.getByText(/senha/i);
+    userEvent.type(passwordInput, '147852');
+    const button = screen.getByRole('button', { name: /entrar/i });
+    expect(button).toBeEnabled();
+  });
+
+  test('if clicking on the /Entrar/ button is redirected to /carteira page', () => {
+    const { history } = renderWithRouter(<App />);
+
+    const enterButton = screen.getByRole('button', { name: /Entrar/i });
+    userEvent.click(enterButton);
+    expect(history.location.pathname).toEqual('/');
+  });
+});
+
+describe('Testing Login page', () => {
   test('if the page contains an h1 heading with the text /TrybeWallet/', () => {
     renderWithRouter(<Login />);
     const loginTitle = screen.getByRole('heading', { level: 1, name: /trybewallet/i });
@@ -36,16 +75,9 @@ describe('Testing login page', () => {
     const passwdLabel = screen.getByText(/sua senha/i);
     expect(passwdLabel).toBeInTheDocument();
   });
-
-  test('If there is an /enter/ button', () => {
-    renderWithRouter(<Login />);
-    const button = screen.getByRole('button', { name: /entrar/i });
-    expect(button).toBeInTheDocument();
-    userEvent.click(button);
-  });
 });
 
-describe('Wallet page components', () => {
+describe('Testing Wallet page', () => {
   test('if the page contains an h2 heading with the text /TrybeWallet/', () => {
     renderWithRouter(<Wallet />);
     const walletTitle = screen.getByRole('heading', { level: 2, name: /trybewallet/i });
@@ -69,15 +101,5 @@ describe('Wallet page components', () => {
     renderWithRouter(<Wallet />);
     const table = screen.getByRole('table');
     expect(table).toBeInTheDocument();
-  });
-
-  describe('Test the App component', () => {
-    test('If de /Wallet/ component is rendered', () => {
-      renderWithRouter(<App />);
-      const button = screen.getByRole('button', { name: /entrar/i });
-      userEvent.type(Email, 'email');
-      userEvent.type(Passwd, 'passwd');
-      userEvent.click(button);
-    });
   });
 });

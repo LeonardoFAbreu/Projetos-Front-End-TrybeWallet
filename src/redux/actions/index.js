@@ -6,6 +6,7 @@ export const REQUEST_API = 'REQUEST_API';
 export const RESPONSE_API = 'RESPONSE_API';
 export const GET_ERROR = 'GET_ERROR';
 export const ADD_EXPENSES = 'ADD_EXPENSES';
+export const RESPONSE_API_WITH_ADD_BUTTON = 'RESPONSE_API_WITH_ADD_BUTTON';
 
 export const userInfos = (email) => (
   {
@@ -36,11 +37,18 @@ export const requestAPI = () => (
     type: REQUEST_API,
   });
 
-export const responseAPI = (currencies) => (
+export const responseAPI = (currencies, responseAPIWithAddButton) => (
   {
     type: RESPONSE_API,
     currencies,
+    responseAPIWithAddButton,
   });
+
+// export const responseAPIWithAddButton = (currencies) => (
+//   {
+//     type: RESPONSE_API_WITH_ADD_BUTTON,
+//     currencies,
+//   });
 
 export const getError = (error) => (
   {
@@ -55,10 +63,27 @@ export function fetchAPI() {
     try {
       const response = await fetch('https://economia.awesomeapi.com.br/json/all');
       const result = await response.json();
+      const resultWithAddButton = {
+        ...result,
+      };
       delete result.USDT;
-      return dispatch(responseAPI(result));
+      return dispatch(responseAPI(result, resultWithAddButton));
     } catch (error) {
       dispatch(getError(error.message));
     }
   };
 }
+
+// export function fetchAPIWithAddButton() {
+//   return async (dispatch) => {
+//     dispatch(requestAPI());
+
+//     try {
+//       const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+//       const result = await response.json();
+//       return dispatch(responseAPIWithAddButton(result));
+//     } catch (error) {
+//       dispatch(getError(error.message));
+//     }
+//   };
+// }

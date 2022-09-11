@@ -9,7 +9,7 @@ class WalletForm extends Component {
     value: '',
     currency: 'USD',
     method: 'Dinheiro',
-    category: 'Lazer',
+    tag: 'Lazer',
     description: '',
     exchangeRates: '',
   };
@@ -27,15 +27,16 @@ class WalletForm extends Component {
     const { id } = this.state;
     const resultAPI = await dispatch(fetchAPI());
     this.setState({
-      exchangeRates: resultAPI.currencies,
+      exchangeRates: resultAPI.responseAPIWithAddButton,
     });
+
     dispatch(addExpenses(this.state));
     this.setState({
       id: id + 1,
       value: '',
       currency: 'USD',
       method: 'Dinheiro',
-      category: 'Lazer',
+      tag: 'Lazer',
       description: '',
       exchangeRates: '',
     });
@@ -54,7 +55,7 @@ class WalletForm extends Component {
             Valor
             <input
               data-testid="value-input"
-              type="text"
+              type="number"
               name="value"
               id="value"
               value={ value }
@@ -73,7 +74,10 @@ class WalletForm extends Component {
               onChange={ this.handleChange }
             >
               { currencies.map((element) => (
-                <option key={ element }>
+                <option
+                  key={ element }
+                  value={ element }
+                >
                   {' '}
                   { element }
                 </option>
@@ -92,7 +96,10 @@ class WalletForm extends Component {
               onChange={ this.handleChange }
             >
               { howMethod.map((element) => (
-                <option key={ element }>
+                <option
+                  key={ element }
+                  value={ element }
+                >
                   { element }
                 </option>
               )) }
@@ -110,7 +117,10 @@ class WalletForm extends Component {
               onChange={ this.handleChange }
             >
               { howTag.map((type) => (
-                <option key={ type }>
+                <option
+                  key={ type }
+                  value={ type }
+                >
                   { type }
                 </option>
               )) }
@@ -129,7 +139,7 @@ class WalletForm extends Component {
           <button
             type="submit"
             name="submit"
-            value={ addExpenses }
+            // value={ addExpenses }
             onClick={ this.handleClick }
             // disabled={ }
           >

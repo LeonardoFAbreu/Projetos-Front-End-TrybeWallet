@@ -54,4 +54,6 @@ const mapStateToProps = (state) => ({
   expenses: state.wallet.expenses,
 });
 
+// teste para novo commit
+
 export default connect(mapStateToProps)(Header);

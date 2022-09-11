@@ -1,6 +1,6 @@
 import { TOTAL_EXPENSE, EXCHANGE_TYPE,
   REQUEST_API, RESPONSE_API, GET_ERROR, ADD_EXPENSES,
-  RESPONSE_API_WITH_ADD_BUTTON,
+  // RESPONSE_API_WITH_ADD_BUTTON,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -48,5 +48,7 @@ const walletReduce = (state = INITIAL_STATE, action) => {
   default: return state;
   }
 };
+
+// teste para novo commit
 
 export default walletReduce;

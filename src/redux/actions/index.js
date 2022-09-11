@@ -74,6 +74,8 @@ export function fetchAPI() {
   };
 }
 
+// teste para novo commit
+
 // export function fetchAPIWithAddButton() {
 //   return async (dispatch) => {
 //     dispatch(requestAPI());

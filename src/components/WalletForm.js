@@ -160,4 +160,6 @@ const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
 });
 
+// teste para novo commit
+
 export default connect(mapStateToProps)(WalletForm);

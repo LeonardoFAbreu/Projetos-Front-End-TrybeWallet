@@ -1,10 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { removeExpenses } from '../redux/actions/index';
 
-class Table extends Component {
+class Table extends React.Component {
+  // handleClickSubmit = (event) => {
+  //   const { expenses, dispatch } = this.props;
+  //   event.preventDefault();
+  //   const itensList = expenses.filter((expense) => +expense.id !== +event.target.id);
+  //   dispatch(removeExpenses(itensList));
+  // };
+
   render() {
-    const { expenses } = this.props;
+    const { expenses, dispatch } = this.props;
 
     return (
       <table>
@@ -12,7 +20,7 @@ class Table extends Component {
           <th scope="col">Descrição</th>
           <th scope="col">Tag</th>
           <th scope="col">Método de pagamento</th>
-          <th scope="col">valor</th>
+          <th scope="col">Valor</th>
           <th scope="col">Moeda</th>
           <th scope="col">Câmbio utilizado</th>
           <th scope="col">Valor convertido</th>
@@ -20,8 +28,8 @@ class Table extends Component {
           <th scope="col">Editar/Excluir</th>
         </thead>
         <tbody>
-          { expenses.map((expense, index) => (
-            <tr key={ index }>
+          { expenses.map((expense) => (
+            <tr key={ expense.id }>
               <td>
                 {
                   expense.description
@@ -61,28 +69,26 @@ class Table extends Component {
                 }
               </td>
               <td>Real brasileiro</td>
-              <td>Editar/Excluir</td>
+              <td>
+                <button
+                  data-testid="delete-btn"
+                  name="delete"
+                  onClick={ () => dispatch(removeExpenses(expense.id)) }
+                  type="submit"
+                >
+                  Excluir
+                </button>
+              </td>
             </tr>)) }
         </tbody>
       </table>
-
-    // <tr>
-    //   <td>
-    //     <button
-    //     data-testid="delete-btn"
-    //     onClick={}
-    //     >
-    //       Excluir
-    //     </button>
-    //   </td>
-    // </tr>
-
     );
   }
 }
 
 Table.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.shape).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

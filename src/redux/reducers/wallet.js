@@ -1,6 +1,6 @@
 import { TOTAL_EXPENSE, EXCHANGE_TYPE,
   REQUEST_API, RESPONSE_API, GET_ERROR, ADD_EXPENSES,
-  // RESPONSE_API_WITH_ADD_BUTTON,
+  REMOVE_EXPENSES,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -29,6 +29,11 @@ const walletReduce = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       expenses: [...state.expenses, action.expenses],
+    };
+  case REMOVE_EXPENSES:
+    return {
+      ...state,
+      expenses: state.expenses.filter((element) => element.id !== action.payload),
     };
   case REQUEST_API:
     return {

@@ -51,7 +51,7 @@ class Login extends React.Component {
   };
 
   render() {
-    const { isDisabledButton } = this.state;
+    const { isDisabledButton, email, passwd } = this.state;
 
     return (
       <form onSubmit={ this.handleSubmit }>
@@ -62,31 +62,34 @@ class Login extends React.Component {
           <label htmlFor="email">
             <p>Seu e-mail</p>
             <input
-              id="Email"
               data-testid="email-input"
-              type="text"
+              id="Email"
               name="email"
               onChange={ this.handleChangeInput }
+              type="text"
+              value={ email }
             />
           </label>
           <label htmlFor="passwd">
             <p>Sua senha</p>
             <input
-              required
-              id="Passwd"
+              // required
               data-testid="password-input"
-              type="text"
+              id="Passwd"
               name="passwd"
               onChange={ this.handleChangeInput }
+              type="text"
+              value={ passwd }
             />
           </label>
         </div>
         <div>
           <button
-            type="submit"
-            name="entrar"
             disabled={ isDisabledButton }
+            id="submit-button"
+            name="entrar"
             onClick={ this.handleSubmit }
+            type="submit"
           >
             Entrar
           </button>

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-class Header extends Component {
+class Header extends React.Component {
   render() {
     const { email, expenses, currency } = this.props;
     const totalExpenses = expenses.reduce((acc, cur) => {

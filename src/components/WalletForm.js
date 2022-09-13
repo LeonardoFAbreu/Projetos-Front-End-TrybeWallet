@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchAPI, addExpenses } from '../redux/actions';
 
-class WalletForm extends Component {
+class WalletForm extends React.Component {
   state = {
     id: 0,
     value: '',
@@ -55,23 +55,21 @@ class WalletForm extends Component {
             Valor
             <input
               data-testid="value-input"
-              type="number"
-              name="value"
               id="value"
-              value={ value }
+              name="value"
               onChange={ this.handleChange }
+              type="number"
+              value={ value }
             />
           </label>
-          <label
-            htmlFor="currencies"
-          >
+          <label htmlFor="currencies">
             Moeda
             <select
               data-testid="currency-input"
-              name="currency"
               id="currency"
-              value={ currency }
+              name="currency"
               onChange={ this.handleChange }
+              value={ currency }
             >
               { currencies.map((element) => (
                 <option
@@ -84,16 +82,14 @@ class WalletForm extends Component {
               )) }
             </select>
           </label>
-          <label
-            htmlFor="method"
-          >
+          <label htmlFor="method">
             Qual a forma de pagamento?
             <select
               data-testid="method-input"
-              name="method"
               id="method"
-              value={ method }
+              name="method"
               onChange={ this.handleChange }
+              value={ method }
             >
               { howMethod.map((element) => (
                 <option
@@ -105,16 +101,14 @@ class WalletForm extends Component {
               )) }
             </select>
           </label>
-          <label
-            htmlFor="category"
-          >
+          <label htmlFor="category">
             Qual o tipo da despesa?
             <select
               data-testid="tag-input"
-              name="tag"
               id="tag"
-              value={ tag }
+              name="tag"
               onChange={ this.handleChange }
+              value={ tag }
             >
               { howTag.map((type) => (
                 <option
@@ -130,17 +124,17 @@ class WalletForm extends Component {
             Descrição da despesa
             <textarea
               data-testid="description-input"
-              name="description"
               id="description"
-              value={ description }
+              name="description"
               onChange={ this.handleChange }
+              value={ description }
             />
           </label>
           <button
-            type="submit"
             name="submit"
             // value={ addExpenses }
             onClick={ this.handleClick }
+            type="submit"
             // disabled={ }
           >
             Adicionar despesa

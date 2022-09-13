@@ -1,17 +1,38 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import mockData from './helpers/mockData';
 import renderWithRouterAndRedux from './helpers/renderWith';
 import App from '../App';
+import Header from '../components/Header';
 import Wallet from '../pages/Wallet';
 
 describe('Testing the /Wallet/ page', () => {
-  beforeEach(() => {
-    global.fetch = jest.fn().mockResolvedValue({
-      json: () => Promise.resolve(mockData),
-    });
-  });
+  const INITIAL_STATE = {
+    wallet: {
+      currencies: Object.keys(mockData).filter((element) => element !== 'USDT'),
+      expenses: [
+        {
+          value: '77',
+          currency: 'USD',
+          method: 'Dinheiro',
+          tag: 'Alimentação',
+          id: 0,
+          description: 'almoço',
+          exchangeRates: mockData,
+        },
+        {
+          value: '77',
+          currency: 'USD',
+          method: 'Dinheiro',
+          tag: 'Alimentação',
+          id: 1,
+          description: 'jantar',
+          exchangeRates: mockData,
+        },
+      ],
+    },
+  };
 
   test('if the <Wallet> page is in the path "/carteira"', () => {
     const { history } = renderWithRouterAndRedux(<App />, { initialEntries: ['/carteira'] });
@@ -21,33 +42,27 @@ describe('Testing the /Wallet/ page', () => {
     expect(pathname).toBe('/carteira');
   });
 
-  test('if the total amount of expenses informed appears in the Header', async () => {
-    const { store } = renderWithRouterAndRedux(<Wallet />, '/carteira');
+  test('if the user email appears in the Header', () => {
+    renderWithRouterAndRedux(<Header />);
 
-    store.dispatch(fetchAPI());
-    const walletForm = screen.getByRole('button', { name: /adicionar despesa/i });
-    expect(walletForm).toBeInTheDocument();
-    await waitFor(() => {
-      const state = store.getState();
-      expect(state.wallet.currencies.length).toBeGreaterThan(0);
+    const userEmail = screen.getByTestId('email-field');
+    expect(userEmail).toBeInTheDocument();
+  });
+
+  test('if it is possible to add expenses', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mockData),
     });
 
-    const inputValue = screen.getByTestId('value-input');
-    userEvent.type(inputValue, '2');
+    const { store } = renderWithRouterAndRedux(<Wallet />, { INITIAL_STATE });
 
-    const currencyType = screen.getByLabelText(/tipo de moeda/i);
-    userEvent.selectOptions(currencyType, 'USD');
+    userEvent.type(screen.getByTestId('value-input'), '');
+    userEvent.type(screen.getByTestId('description-input'), 'blablabla');
+    userEvent.click(screen.getByRole('button', { name: /Adicionar despesa/i }));
 
-    const addExpButton = screen.getByText(/adicionar despesa/i);
-    userEvent.click(addExpButton);
-    await waitFor(() => {
-      const totalField = screen.getAllByText('9.51');
-      expect(totalField[0].innerHTML).toBe('9.51');
-    });
-
-    const deleteButton = screen.getByTestId('delete-btn');
-    expect(deleteButton).toBeInTheDocument();
-    userEvent.click(deleteButton);
-    expect(deleteButton).not.toBeInTheDocument();
+    expect(await screen.findByText('blablabla')).toBeInTheDocument();
+    expect(store.getState().wallet.expenses).toHaveLength(3);
+    expect(await screen.findByText('0')).toBeInTheDocument();
   });
 });
